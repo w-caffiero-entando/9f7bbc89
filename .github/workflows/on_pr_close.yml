@@ -1,0 +1,24 @@
+name: Close Pull Request
+
+on:
+  pull_request:
+    types: [ closed ]
+
+jobs:
+  merge_job:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+    - run: |
+        echo XXXXXXXXXXX
+        echo XX MERGE XX
+        echo XXXXXXXXXXX
+  close_job:
+    # this job will only run if the PR has been closed without being merged
+    if: github.event.pull_request.merged == false
+    runs-on: ubuntu-latest
+    steps:
+    - run: |
+        echo XXXXXXXXXXX
+        echo XX CLOSE XX
+        echo XXXXXXXXXXX
