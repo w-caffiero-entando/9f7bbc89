@@ -34,7 +34,7 @@ jobs:
             -d "{\"state\":\"$1\", \"description\": \"$3\", \"context\":\"$2\"}" \
           || true
         }
-       upd "pending" "Pending" "Pending.."
-       sleep 1
-       upd "success" "Success" "Success."
-       sleep 1
+        upd "pending" "Pending" "Pending.."
+        sleep 1
+        upd "success" "Success" "Success."
+        sleep 1
