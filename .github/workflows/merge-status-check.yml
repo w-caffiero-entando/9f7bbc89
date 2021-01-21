@@ -2,10 +2,7 @@ name: Merge Status Check
 
 on:
   pull_request:
-    types:
-      - opened
-      - synchronize
-      - reopened
+    types: [ closed ]
 
 jobs:
   merge_status_check:
