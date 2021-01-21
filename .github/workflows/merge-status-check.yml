@@ -6,13 +6,12 @@ on:
 
 jobs:
   merge_status_check:
-    if: github.event.pull_request.merged == true
-
     env:
       SHA: ${{ github.sha }}
       SHAB: ${{ github.event.before }}
       SHAA: ${{ github.event.after }}
       URLT: ${{ github.event.repository.statuses_url }}
+      DBG: ${{ toJSON(github.event) }}
       
     runs-on: ubuntu-latest
     steps:
@@ -21,6 +20,7 @@ jobs:
         echo XXXXXXXXXXXXXXXXXXXXXXXX
         echo XX MERGE STATUS CHECK XX
         echo XXXXXXXXXXXXXXXXXXXXXXXX
+        echo "$DBG"
         SHA2="$(git rev-parse HEAD)"
         echo "XXXXXXXXXXXXX-1: $SHA"
         echo "XXXXXXXXXXXXX-2: $SHA2"
