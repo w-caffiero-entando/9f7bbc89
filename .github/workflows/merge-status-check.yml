@@ -6,6 +6,8 @@ on:
 
 jobs:
   merge_status_check:
+    if: github.event.pull_request.merged == true
+
     env:
       SHA: ${{ github.sha }}
       SHAB: ${{ github.event.before }}
