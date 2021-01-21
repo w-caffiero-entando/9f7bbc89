@@ -8,7 +8,9 @@ jobs:
   merge_status_check:
     env:
       SHA: ${{ github.sha }}
-      URL: ${{ github.event.repository.statuses_url }}
+      SHAB: ${{ github.event.before }}
+      SHAA: ${{ github.event.after }}
+      URLT: ${{ github.event.repository.statuses_url }}
       
     runs-on: ubuntu-latest
     steps:
@@ -17,11 +19,28 @@ jobs:
         echo XXXXXXXXXXXXXXXXXXXXXXXX
         echo XX MERGE STATUS CHECK XX
         echo XXXXXXXXXXXXXXXXXXXXXXXX
-        URL="${URL//\{sha\}/$SHA}"
+        URL="${URLT//\{sha\}/$SHA}"
         echo "XXXX $URL"
         curl "$URL" \
           -X POST \
           -H "Accept: application/vnd.github.v3+json" \
           -H 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
           -d '{"state":"success"}' \
+        URL="${URLT//\{sha\}/$SHAA}"
+        curl "$URL" \
+          -X POST \
+          -H "Accept: application/vnd.github.v3+json" \
+          -H 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
+          -d '{"state":"success"}' \
+        URL="${URLT//\{sha\}/$SHAB}"
+        curl "$URL" \
+          -X POST \
+          -H "Accept: application/vnd.github.v3+json" \
+          -H 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
+          -d '{"state":"success"}' \
         ;
+
+        
+  -H "Content-Type: application/json" \
+  -X POST \
+  -d "{\"state\": \"success\",\"context\": \"continuous-integration/jenkins\", \"description\": \"Jenkins\", \"target_url\": \"<YOUR_JENKINS_URL>/job/<JenkinsProjectName>/$BUILD_NUMBER/console\"}"
