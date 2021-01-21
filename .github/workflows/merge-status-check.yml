@@ -19,7 +19,7 @@ jobs:
         echo XXXXXXXXXXXXXXXXXXXXXXXX
         URL="${URL//\{sha\}/$SHA}"
         echo "XXXX $URL"
-        curl "$URL"
+        curl "$URL" \
           -X POST \
           -H "Accept: application/vnd.github.v3+json" \
           -H 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
