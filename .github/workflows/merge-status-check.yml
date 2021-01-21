@@ -21,29 +21,20 @@ jobs:
         echo XXXXXXXXXXXXXXXXXXXXXXXX
         echo XX MERGE STATUS CHECK XX
         echo XXXXXXXXXXXXXXXXXXXXXXXX
+        SHA2="$(git rev-parse HEAD)"
+        echo "XXXXXXXXXXXXX-1: $SHA"
+        echo "XXXXXXXXXXXXX-2: $SHA2"
         URL="${URLT//\{sha\}/$SHA}"
         echo "XXXX $URL"
-        curl "$URL" \
-          -X POST \
-          -H "Accept: application/vnd.github.v3+json" \
-          -H 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
-          -d '{"state":"success"}' \
-        || true
-        
-        URL="${URLT//\{sha\}/$SHAA}"
-        echo "XXXX $URL"
-        curl "$URL" \
-          -X POST \
-          -H "Accept: application/vnd.github.v3+json" \
-          -H 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
-          -d '{"state":"success"}' \
-        || true
-        
-        URL="${URLT//\{sha\}/$SHAB}"
-        echo "XXXX $URL"
-        curl "$URL" \
-          -X POST \
-          -H "Accept: application/vnd.github.v3+json" \
-          -H 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
-          -d '{"state":"success"}' \
-        || true
+        upd() {
+          curl "$URL" \
+            -X POST \
+            -H "Accept: application/json" \
+            -H 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
+            -d "{\"state\":\"$1\", \"description\": \"$3\", \"context\":\"$2\"}" \
+          || true
+        }
+       upd "pending" "Pending" "Pending.."
+       sleep 1
+       upd "success" "Success" "Success."
+       sleep 1
