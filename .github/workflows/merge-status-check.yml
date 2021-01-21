@@ -5,40 +5,13 @@ on:
     types:
       - opened
       - synchronize
-      - reopened  
+      - reopened
       - closed
 
 jobs:
   merge_status_check:
-    env:
-      SHA: ${{ github.sha }}
-      SHAB: ${{ github.event.before }}
-      SHAA: ${{ github.event.after }}
-      URLT: ${{ github.event.repository.statuses_url }}
-      DBG: ${{ toJSON(github.event) }}
-      
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
     - run: |
-        echo XXXXXXXXXXXXXXXXXXXXXXXX
-        echo XX MERGE STATUS CHECK XX
-        echo XXXXXXXXXXXXXXXXXXXXXXXX
-        echo "$DBG"
-        SHA2="$(git rev-parse HEAD)"
-        echo "XXXXXXXXXXXXX-1: $SHA"
-        echo "XXXXXXXXXXXXX-2: $SHA2"
-        URL="${URLT//\{sha\}/$SHA}"
-        echo "XXXX $URL"
-        upd() {
-          curl "$URL" \
-            -X POST \
-            -H "Accept: application/json" \
-            -H 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
-            -d "{\"state\":\"$1\", \"description\": \"$3\", \"context\":\"$2\"}" \
-          || true
-        }
-        upd "pending" "Pending" "Pending.."
-        sleep 1
-        upd "success" "Success" "Success."
-        sleep 1
+        echo OK.
