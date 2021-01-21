@@ -1,0 +1,17 @@
+name: Merge Status Check
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+
+jobs:
+  merge_status_check:
+    runs-on: ubuntu-latest
+    steps:
+    - run: |
+        echo XXXXXXXXXXXXXXXXXXXXXXXX
+        echo XX MERGE STATUS CHECK XX
+        echo XXXXXXXXXXXXXXXXXXXXXXXX
